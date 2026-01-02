@@ -1,0 +1,92 @@
+name: 📊 Daily Report
+
+on:
+  # 手动触发 - 在 GitHub 网页或通过 API 触发
+  workflow_dispatch:
+
+  # 可选:定时触发 - 每天早上 7:00 (北京时间)
+  # UTC 时间 23:00 = 北京时间 07:00 (UTC+8)
+  # 取消注释下面两行启用定时任务
+  # schedule:
+  #   - cron: '0 23 * * *'
+
+jobs:
+  send-daily-report:
+    name: 📊 生成并发送每日简报
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 检出代码
+        uses: actions/checkout@v4
+
+      - name: 🐍 设置 Python 环境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: 📦 安装依赖
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🚀 运行每日简报脚本
+        env:
+          # 通知器配置
+          NOTIFIER_TYPE: ${{ vars.NOTIFIER_TYPE || 'telegram' }}
+
+          # Telegram 配置
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+          # 钉钉配置
+          DINGTALK_WEBHOOK: ${{ secrets.DINGTALK_WEBHOOK }}
+          DINGTALK_SECRET: ${{ secrets.DINGTALK_SECRET }}
+
+          # 飞书配置
+          FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
+
+          # 企业微信配置
+          WECOM_WEBHOOK: ${{ secrets.WECOM_WEBHOOK }}
+
+          # 功能开关
+          ENABLE_GITHUB_STATS: ${{ vars.ENABLE_GITHUB_STATS || 'true' }}
+          ENABLE_XIAOMI_SPORT: ${{ vars.ENABLE_XIAOMI_SPORT || 'false' }}
+          ENABLE_WEREAD: ${{ vars.ENABLE_WEREAD || 'false' }}
+          ENABLE_DUOLINGO: ${{ vars.ENABLE_DUOLINGO || 'true' }}
+          ENABLE_POEM: ${{ vars.ENABLE_POEM || 'true' }}
+
+          # GitHub 统计
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_USERNAME: ${{ secrets.GITHUB_USERNAME }}
+
+          # 小米运动 (如果启用)
+          XIAOMI_USERNAME: ${{ secrets.XIAOMI_USERNAME }}
+          XIAOMI_PASSWORD: ${{ secrets.XIAOMI_PASSWORD }}
+
+          # 微信读书 (如果启用)
+          WEREAD_COOKIE: ${{ secrets.WEREAD_COOKIE }}
+
+          # 多邻国
+          DUOLINGO_USERNAME: ${{ secrets.DUOLINGO_USERNAME }}
+          DUOLINGO_JWT_TOKEN: ${{ secrets.DUOLINGO_JWT_TOKEN }}
+        run: |
+          python main.py
+
+      - name: 📝 记录执行结果
+        if: always()
+        run: |
+          if [ $? -eq 0 ]; then
+            echo "✅ 每日简报发送成功!"
+          else
+            echo "❌ 每日简报发送失败,请查看日志"
+            exit 1
+          fi
+
+      - name: 🚨 发送失败通知
+        if: failure()
+        run: |
+          curl -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d "text=❌ 每日简报生成失败!%0A%0A请查看 GitHub Actions 日志:%0Ahttps://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            -d "parse_mode=Markdown"
