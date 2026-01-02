@@ -69,25 +69,18 @@
 - `XIAOMI_PASSWORD` - 小米密码
 - `WEREAD_COOKIE` - 微信读书 Cookie
 
-详细配置步骤: [📖 GitHub Actions 配置指南](docs/GITHUB_ACTIONS_SETUP.md)
-
 ### 3. 触发运行
 
 **方式 1: GitHub 网页**
 - 进入 Actions → Daily Report → Run workflow
 
 **方式 2: 手机一键触发**
-- iOS: 配置 Shortcuts (详见文档)
-- Android: 使用 HTTP Shortcuts App (详见文档)
+- iOS: 使用 Shortcuts 应用发送 HTTP 请求到 GitHub API
+- Android: 使用 HTTP Shortcuts 应用触发 workflow
 
 **方式 3: 定时自动发送**
 - 编辑 `.github/workflows/daily.yml`
 - 取消注释 schedule 部分
-
-## 📖 文档
-
-- [🔧 GitHub Actions 配置指南](docs/GITHUB_ACTIONS_SETUP.md) - 完整配置步骤
-- [📱 手机触发教程](docs/GITHUB_ACTIONS_SETUP.md#-触发方式) - iOS/Android 一键触发
 
 ## 🏗️ 架构
 
