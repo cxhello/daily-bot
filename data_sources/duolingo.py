@@ -232,7 +232,8 @@ def format_duolingo_message(data: Dict[str, Any]) -> str:
         if xp_today > 0:
             lines.append(f"• 今日进度: {xp_today}/{xp_goal} XP (连续 {streak} 天)")
         else:
-            lines.append(f"• 今日未完成 ⚠️ (连续 {streak} 天)")
+            lines.append(f"• (连续 {streak} 天)")
+            # lines.append(f"• 今日未完成 ⚠️ (连续 {streak} 天)")
 
     # 学习语言
     if language := data.get("learning_language"):
