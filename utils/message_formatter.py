@@ -1,7 +1,10 @@
 """消息格式化工具"""
 from typing import Dict, Any
+import pendulum
 from utils.progress_bar import get_year_progress, get_day_info
 from data_sources import github, xiaomi, weread, duolingo, poem
+
+TIMEZONE = "Asia/Shanghai"
 
 
 def format_daily_message(data: Dict[str, Any]) -> str:
@@ -19,12 +22,17 @@ def format_daily_message(data: Dict[str, Any]) -> str:
     day_info = get_day_info()
     header = f"🌅 早安!今天是 {day_info['date']} 星期{day_info['weekday']}\n\n"
     header += f"今天是今年第 {day_info['day_of_year']} 天"
+
+    # 添加起床时间（脚本运行时间，北京时间）
+    wake_time = pendulum.now(TIMEZONE).format("YYYY-MM-DD HH:mm:ss")
+    header += f"\n今天的起床时间是 -- {wake_time}"
+
     sections.append(header)
 
     # 年度进度
     sections.append("━━━━━━━━━━━━━━━━━━━━")
     year_progress = get_year_progress()
-    sections.append(f"📊 {datetime.now().year} 年度进度\n{year_progress}")
+    sections.append(f"📊 {pendulum.now(TIMEZONE).year} 年度进度\n{year_progress}")
 
     # 数据部分
     sections.append("━━━━━━━━━━━━━━━━━━━━")
@@ -67,6 +75,3 @@ def format_daily_message(data: Dict[str, Any]) -> str:
             sections.append(f"• {error}")
 
     return "\n\n".join(sections)
-
-
-from datetime import datetime
