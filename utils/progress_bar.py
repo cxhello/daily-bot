@@ -1,5 +1,7 @@
 """进度条生成工具"""
-from datetime import datetime
+import pendulum
+
+TIMEZONE = "Asia/Shanghai"
 
 
 def get_year_progress() -> str:
@@ -8,8 +10,8 @@ def get_year_progress() -> str:
     Returns:
         进度条字符串,格式: ████████░░░░░░░░░░░░ 0.3% (1/365)
     """
-    now = datetime.now()
-    day_of_year = now.timetuple().tm_yday
+    now = pendulum.now(TIMEZONE)
+    day_of_year = now.day_of_year
 
     # 判断是否为闰年
     is_leap_year = now.year % 4 == 0 and (now.year % 100 != 0 or now.year % 400 == 0)
@@ -34,11 +36,11 @@ def get_day_info() -> dict:
     Returns:
         包含日期信息的字典
     """
-    now = datetime.now()
+    now = pendulum.now(TIMEZONE)
     weekdays = ["一", "二", "三", "四", "五", "六", "日"]
 
     return {
-        "date": now.strftime("%Y年%m月%d日"),
-        "weekday": weekdays[now.weekday()],
-        "day_of_year": now.timetuple().tm_yday,
+        "date": now.format("YYYY年MM月DD日"),
+        "weekday": weekdays[now.day_of_week],
+        "day_of_year": now.day_of_year,
     }
