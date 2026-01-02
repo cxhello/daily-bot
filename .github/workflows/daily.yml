@@ -58,7 +58,7 @@ jobs:
 
           # GitHub 统计
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_USERNAME: ${{ secrets.GITHUB_USERNAME }}
+          GITHUB_USERNAME: ${{ github.repository_owner }}
 
           # 小米运动 (如果启用)
           XIAOMI_USERNAME: ${{ secrets.XIAOMI_USERNAME }}
