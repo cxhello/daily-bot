@@ -3,6 +3,17 @@ name: 📊 Daily Report
 on:
   # 手动触发 - 在 GitHub 网页或通过 API 触发
   workflow_dispatch:
+    inputs:
+      steps:
+        description: 'Yesterday steps count'
+        required: false
+        default: ''
+        type: string
+      sleep_hours:
+        description: 'Last night sleep hours'
+        required: false
+        default: ''
+        type: string
 
   # 可选:定时触发 - 每天早上 7:00 (北京时间)
   # UTC 时间 23:00 = 北京时间 07:00 (UTC+8)
@@ -55,6 +66,10 @@ jobs:
           ENABLE_WEREAD: ${{ vars.ENABLE_WEREAD || 'false' }}
           ENABLE_DUOLINGO: ${{ vars.ENABLE_DUOLINGO || 'true' }}
           ENABLE_POEM: ${{ vars.ENABLE_POEM || 'true' }}
+
+          # 苹果健康数据（从 workflow input 传入）
+          APPLE_HEALTH_STEPS: ${{ inputs.steps }}
+          APPLE_HEALTH_SLEEP_HOURS: ${{ inputs.sleep_hours }}
 
           # GitHub 统计
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

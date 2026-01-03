@@ -33,6 +33,7 @@ class Config:
     ENABLE_DUOLINGO = os.getenv("ENABLE_DUOLINGO", "true").lower() == "true"
     ENABLE_GITHUB_STATS = os.getenv("ENABLE_GITHUB_STATS", "true").lower() == "true"
     ENABLE_POEM = os.getenv("ENABLE_POEM", "true").lower() == "true"
+    ENABLE_APPLE_HEALTH = os.getenv("ENABLE_APPLE_HEALTH", "true").lower() == "true"
     ENABLE_TODO_REMINDER = (
         os.getenv("ENABLE_TODO_REMINDER", "true").lower() == "true"
     )
@@ -51,6 +52,10 @@ class Config:
     # GitHub
     GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
     GITHUB_USERNAME = os.getenv("GITHUB_USERNAME")
+
+    # Apple Health 数据（从 workflow input 传入）
+    APPLE_HEALTH_STEPS = os.getenv("APPLE_HEALTH_STEPS", "")
+    APPLE_HEALTH_SLEEP_HOURS = os.getenv("APPLE_HEALTH_SLEEP_HOURS", "")
 
     # 提醒配置
     CONTACT_REMINDER_DAYS = int(os.getenv("CONTACT_REMINDER_DAYS", "7"))

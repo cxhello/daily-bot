@@ -42,6 +42,12 @@ async def collect_all_data() -> Dict[str, Any]:
     if config.ENABLE_POEM:
         tasks.append(("poem", collect_poem_data()))
 
+    # Apple Health 数据
+    if config.ENABLE_APPLE_HEALTH and (
+        config.APPLE_HEALTH_STEPS or config.APPLE_HEALTH_SLEEP_HOURS
+    ):
+        tasks.append(("apple_health", collect_apple_health_data()))
+
     # 并发执行所有任务
     if tasks:
         results = await asyncio.gather(
@@ -96,3 +102,10 @@ async def collect_poem_data() -> Dict[str, Any]:
     from data_sources.poem import get_daily_poem
 
     return await get_daily_poem()
+
+
+async def collect_apple_health_data() -> Dict[str, Any]:
+    """收集 Apple Health 数据"""
+    from data_sources.apple_health import get_health_stats
+
+    return await get_health_stats()
