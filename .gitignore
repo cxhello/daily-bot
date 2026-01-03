@@ -56,3 +56,6 @@ docs/
 # Temporary utility scripts
 get_chat_id.py
 get_chat_id_live.py
+
+# Git worktrees
+.worktrees/
