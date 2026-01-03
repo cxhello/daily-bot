@@ -48,6 +48,10 @@ async def collect_all_data() -> Dict[str, Any]:
     ):
         tasks.append(("apple_health", collect_apple_health_data()))
 
+    # Steam 数据
+    if config.ENABLE_STEAM and config.STEAM_API_KEY and config.STEAM_ID:
+        tasks.append(("steam", collect_steam_data()))
+
     # 并发执行所有任务
     if tasks:
         results = await asyncio.gather(
@@ -109,3 +113,10 @@ async def collect_apple_health_data() -> Dict[str, Any]:
     from data_sources.apple_health import get_health_stats
 
     return await get_health_stats()
+
+
+async def collect_steam_data() -> Dict[str, Any]:
+    """收集 Steam 数据"""
+    from data_sources.steam import get_steam_stats
+
+    return await get_steam_stats(config.STEAM_API_KEY, config.STEAM_ID)

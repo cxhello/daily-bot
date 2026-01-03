@@ -34,6 +34,8 @@ class Config:
     ENABLE_GITHUB_STATS = os.getenv("ENABLE_GITHUB_STATS", "true").lower() == "true"
     ENABLE_POEM = os.getenv("ENABLE_POEM", "true").lower() == "true"
     ENABLE_APPLE_HEALTH = os.getenv("ENABLE_APPLE_HEALTH", "true").lower() == "true"
+    ENABLE_STEAM = os.getenv("ENABLE_STEAM", "true").lower() == "true"
+    ENABLE_BILIBILI = os.getenv("ENABLE_BILIBILI", "true").lower() == "true"
     ENABLE_TODO_REMINDER = (
         os.getenv("ENABLE_TODO_REMINDER", "true").lower() == "true"
     )
@@ -56,6 +58,10 @@ class Config:
     # Apple Health 数据（从 workflow input 传入）
     APPLE_HEALTH_STEPS = os.getenv("APPLE_HEALTH_STEPS", "")
     APPLE_HEALTH_SLEEP_HOURS = os.getenv("APPLE_HEALTH_SLEEP_HOURS", "")
+
+    # Steam
+    STEAM_API_KEY = os.getenv("STEAM_API_KEY")
+    STEAM_ID = os.getenv("STEAM_ID")
 
     # 提醒配置
     CONTACT_REMINDER_DAYS = int(os.getenv("CONTACT_REMINDER_DAYS", "7"))

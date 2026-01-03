@@ -19,8 +19,10 @@
 | GitHub 统计 | ✅ 可用 | PR、Issue、Commit 等活动 |
 | 多邻国 | ✅ 可用 | 学习天数、XP、连续打卡 |
 | 每日诗词 | ✅ 可用 | 中华古诗词随机推送 |
+| Steam 游戏 | ✅ 可用 | 游戏时长、游戏库统计 |
 | 小米运动 | ⚠️ 待修复 | API 变化需要更新 |
 | 微信读书 | ⚠️ 待修复 | 需要验证和修复 |
+| Apple Health | 🚧 开发中 | 步数、睡眠数据（需 iOS 快捷指令配合） |
 
 ## 🔔 支持的通知平台
 
@@ -68,6 +70,8 @@
 - `XIAOMI_USERNAME` - 小米账号
 - `XIAOMI_PASSWORD` - 小米密码
 - `WEREAD_COOKIE` - 微信读书 Cookie
+- `STEAM_API_KEY` - Steam Web API Key
+- `STEAM_ID` - Steam ID64
 
 ### 3. 触发运行
 
@@ -154,7 +158,8 @@ python main.py
 ## 🔮 未来计划
 
 - [ ] 修复小米运动和微信读书数据源
-- [ ] Apple Health 数据集成
+- [ ] Apple Health 数据集成（需 iOS 快捷指令配合）
+- [ ] 更多游戏平台 (PlayStation、Xbox 等)
 - [ ] 更多数据源 (天气、豆瓣、知乎等)
 - [ ] 自定义消息模板
 - [ ] Web Dashboard

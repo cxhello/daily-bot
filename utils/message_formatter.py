@@ -2,7 +2,7 @@
 from typing import Dict, Any
 import pendulum
 from utils.progress_bar import get_year_progress, get_day_info
-from data_sources import github, xiaomi, weread, duolingo, poem, apple_health
+from data_sources import github, xiaomi, weread, duolingo, poem, apple_health, steam
 
 TIMEZONE = "Asia/Shanghai"
 
@@ -69,6 +69,12 @@ def format_daily_message(data: Dict[str, Any]) -> str:
     if "poem" in sources:
         sections.append("━━━━━━━━━━━━━━━━━━━━")
         msg = poem.format_poem_message(sources["poem"])
+        sections.append(msg)
+
+    # Steam 数据
+    if "steam" in sources:
+        sections.append("━━━━━━━━━━━━━━━━━━━━")
+        msg = steam.format_steam_message(sources["steam"])
         sections.append(msg)
 
     # 错误信息(如果有)
