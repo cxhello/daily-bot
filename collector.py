@@ -52,6 +52,10 @@ async def collect_all_data() -> Dict[str, Any]:
     if config.ENABLE_STEAM and config.STEAM_API_KEY and config.STEAM_ID:
         tasks.append(("steam", collect_steam_data()))
 
+    # History Today 数据
+    if config.ENABLE_HISTORY_TODAY and config.BIRTH_YEAR:
+        tasks.append(("history", collect_history_data()))
+
     # 并发执行所有任务
     if tasks:
         results = await asyncio.gather(
@@ -120,3 +124,10 @@ async def collect_steam_data() -> Dict[str, Any]:
     from data_sources.steam import get_steam_stats
 
     return await get_steam_stats(config.STEAM_API_KEY, config.STEAM_ID)
+
+
+async def collect_history_data() -> Dict[str, Any]:
+    """收集历史事件数据"""
+    from data_sources.history import get_history_today_events
+
+    return await get_history_today_events(config.BIRTH_YEAR)
