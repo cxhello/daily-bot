@@ -1,5 +1,6 @@
 """配置管理模块"""
 import os
+import pendulum
 from dotenv import load_dotenv
 
 # 加载环境变量
@@ -36,6 +37,7 @@ class Config:
     ENABLE_APPLE_HEALTH = os.getenv("ENABLE_APPLE_HEALTH", "true").lower() == "true"
     ENABLE_STEAM = os.getenv("ENABLE_STEAM", "true").lower() == "true"
     ENABLE_BILIBILI = os.getenv("ENABLE_BILIBILI", "true").lower() == "true"
+    ENABLE_HISTORY_TODAY = os.getenv("ENABLE_HISTORY_TODAY", "true").lower() == "true"
     ENABLE_TODO_REMINDER = (
         os.getenv("ENABLE_TODO_REMINDER", "true").lower() == "true"
     )
@@ -63,6 +65,9 @@ class Config:
     STEAM_API_KEY = os.getenv("STEAM_API_KEY")
     STEAM_ID = os.getenv("STEAM_ID")
 
+    # History Today
+    BIRTH_YEAR = int(os.getenv("BIRTH_YEAR", "0")) if os.getenv("BIRTH_YEAR") else None
+
     # 提醒配置
     CONTACT_REMINDER_DAYS = int(os.getenv("CONTACT_REMINDER_DAYS", "7"))
     SLEEP_GOAL_HOURS = float(os.getenv("SLEEP_GOAL_HOURS", "7.5"))
@@ -89,6 +94,14 @@ class Config:
                 raise ValueError("WECOM_WEBHOOK 未设置")
         else:
             raise ValueError(f"不支持的通知器类型: {notifier_type}")
+
+        # Validate History Today config
+        if cls.ENABLE_HISTORY_TODAY:
+            if not cls.BIRTH_YEAR:
+                raise ValueError("启用历史功能需要配置 BIRTH_YEAR")
+            current_year = pendulum.now().year
+            if cls.BIRTH_YEAR < 1900 or cls.BIRTH_YEAR > current_year:
+                raise ValueError(f"BIRTH_YEAR 必须在 1900-{current_year} 之间")
 
 
 # 导出配置实例
