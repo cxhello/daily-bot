@@ -86,6 +86,8 @@ jobs:
           DUOLINGO_USERNAME: ${{ secrets.DUOLINGO_USERNAME }}
           DUOLINGO_JWT_TOKEN: ${{ secrets.DUOLINGO_JWT_TOKEN }}
 
+          # 历史上的今天事件
+          ENABLE_HISTORY_TODAY: ${{ secrets.ENABLE_HISTORY_TODAY }}
           BIRTH_YEAR: ${{ secrets.BIRTH_YEAR }}
         run: |
           python main.py

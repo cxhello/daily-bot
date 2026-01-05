@@ -37,7 +37,7 @@ class Config:
     ENABLE_APPLE_HEALTH = os.getenv("ENABLE_APPLE_HEALTH", "true").lower() == "true"
     ENABLE_STEAM = os.getenv("ENABLE_STEAM", "true").lower() == "true"
     ENABLE_BILIBILI = os.getenv("ENABLE_BILIBILI", "true").lower() == "true"
-    ENABLE_HISTORY_TODAY = os.getenv("ENABLE_HISTORY_TODAY", "true").lower() == "true"
+    ENABLE_HISTORY_TODAY = os.getenv("ENABLE_HISTORY_TODAY", "false").lower() == "true"
     ENABLE_TODO_REMINDER = (
         os.getenv("ENABLE_TODO_REMINDER", "true").lower() == "true"
     )
