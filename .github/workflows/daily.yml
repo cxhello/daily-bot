@@ -85,6 +85,8 @@ jobs:
           # 多邻国
           DUOLINGO_USERNAME: ${{ secrets.DUOLINGO_USERNAME }}
           DUOLINGO_JWT_TOKEN: ${{ secrets.DUOLINGO_JWT_TOKEN }}
+
+          BIRTH_YEAR: ${{ secrets.BIRTH_YEAR }}
         run: |
           python main.py
 
