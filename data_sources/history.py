@@ -8,7 +8,7 @@ from typing import Dict, Any, Optional
 logger = logging.getLogger(__name__)
 
 WIKIMEDIA_API = "https://api.wikimedia.org/feed/v1/wikipedia/zh/onthisday/events/{month}/{day}"
-USER_AGENT = "DailyBot/1.0"
+USER_AGENT = "DailyBot/1.0 (https://github.com/cxhello/daily-bot; daily report bot)"
 
 
 async def get_history_today_events(birth_year: int) -> Optional[Dict[str, Any]]:
