@@ -185,6 +185,8 @@ def _calculate_streak(username: str, headers: Dict[str, str]) -> int:
             )
 
             if error or not events_data:
+                if error:
+                    logger.warning(f"获取连续贡献事件失败 (page {page}): {error}")
                 break
 
             all_events.extend(events_data)
@@ -269,6 +271,8 @@ def _get_github_stats_sync(token: str, username: str) -> Dict[str, Any]:
             headers,
             {"q": pr_query, "per_page": 100},
         )
+        if error:
+            logger.warning(f"获取 PR 数据失败: {error}")
         if pr_data:
             pr_items = pr_data.get("items", [])
             pr_activities = _process_search_items(pr_items, username, "pr")
@@ -281,6 +285,8 @@ def _get_github_stats_sync(token: str, username: str) -> Dict[str, Any]:
             headers,
             {"q": issue_query, "per_page": 100},
         )
+        if error:
+            logger.warning(f"获取 Issue 数据失败: {error}")
         if issue_data:
             issue_items = issue_data.get("items", [])
             issue_activities = _process_search_items(issue_items, username, "issue")
@@ -294,6 +300,8 @@ def _get_github_stats_sync(token: str, username: str) -> Dict[str, Any]:
             events_data, error = _make_api_request(events_url, headers, page_params)
 
             if error or not events_data:
+                if error:
+                    logger.warning(f"获取事件数据失败 (page {page}): {error}")
                 break
 
             page_activities = _process_events(
