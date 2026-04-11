@@ -72,7 +72,7 @@ jobs:
           APPLE_HEALTH_SLEEP_HOURS: ${{ inputs.sleep_hours }}
 
           # GitHub 统计
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_PAT_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_USERNAME: ${{ github.repository_owner }}
 
           # 小米运动 (如果启用)

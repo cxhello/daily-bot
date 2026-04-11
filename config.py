@@ -54,7 +54,7 @@ class Config:
     DUOLINGO_JWT_TOKEN = os.getenv("DUOLINGO_JWT_TOKEN")
 
     # GitHub
-    GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+    GITHUB_TOKEN = os.getenv("GH_PAT_TOKEN") or os.getenv("GITHUB_TOKEN")
     GITHUB_USERNAME = os.getenv("GITHUB_USERNAME")
 
     # Apple Health 数据（从 workflow input 传入）
