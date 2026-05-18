@@ -352,6 +352,11 @@ def _get_github_stats_sync(token: str, username: str) -> Dict[str, Any]:
         }
 
 
+def _sanitize_link_text(text: str) -> str:
+    """去除会破坏 Markdown 链接语法 [text](url) 的字符"""
+    return text.replace('[', '').replace(']', '')
+
+
 def format_github_message(data: Dict[str, Any]) -> str:
     """格式化 GitHub 消息"""
     if not data.get("has_activity"):
@@ -367,17 +372,20 @@ def format_github_message(data: Dict[str, Any]) -> str:
     # 创建的 PR
     prs_created = data.get("prs_created", [])
     for pr in prs_created[:3]:  # 最多显示3个
-        lines.append(f"• 创建了 PR: [{pr['title']}]({pr['url']}) ({pr['repo']})")
+        title = _sanitize_link_text(pr['title'])
+        lines.append(f"• 创建了 PR: [{title}]({pr['url']}) ({pr['repo']})")
 
     # 合并的 PR
     prs_merged = data.get("prs_merged", [])
     for pr in prs_merged[:2]:  # 最多显示2个
-        lines.append(f"• 合并了 PR: [{pr['title']}]({pr['url']}) ({pr['repo']})")
+        title = _sanitize_link_text(pr['title'])
+        lines.append(f"• 合并了 PR: [{title}]({pr['url']}) ({pr['repo']})")
 
     # 关闭的 Issue
     issues_closed = data.get("issues_closed", [])
     for issue in issues_closed[:2]:  # 最多显示2个
-        lines.append(f"• 关闭了 Issue: [{issue['title']}]({issue['url']}) ({issue['repo']})")
+        title = _sanitize_link_text(issue['title'])
+        lines.append(f"• 关闭了 Issue: [{title}]({issue['url']}) ({issue['repo']})")
 
     # Star
     stars = data.get("stars", [])

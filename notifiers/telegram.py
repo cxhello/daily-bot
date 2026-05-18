@@ -1,5 +1,6 @@
 """Telegram 通知器"""
 import logging
+import re
 from typing import Dict, Any
 from telegram import Bot
 
@@ -48,9 +49,16 @@ class TelegramNotifier(BaseNotifier):
             logger.error(f"❌ Telegram 消息发送失败: {e}")
             return False
     
+    @staticmethod
+    def _escape_link_text(match: re.Match) -> str:
+        text = match.group(1)
+        url = match.group(2)
+        for char in ['_', '*', '`']:
+            text = text.replace(char, f'\\{char}')
+        return f'[{text}]({url})'
+
     def format_message(self, data: Dict[str, Any]) -> str:
-        """格式化 Telegram 消息
-        
-        Telegram 支持 Markdown 格式
-        """
-        return super().format_message(data)
+        """格式化 Telegram 消息，转义 Markdown 特殊字符"""
+        message = super().format_message(data)
+        message = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', self._escape_link_text, message)
+        return message
